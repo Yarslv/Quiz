@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Quiz</string>
     <string name="next">next</string>
+    <string name="text1">text1.txt</string>
+    <string name="answer1">answers1.txt</string>
+    <string name="text_finish">finish</string>
 </resources>

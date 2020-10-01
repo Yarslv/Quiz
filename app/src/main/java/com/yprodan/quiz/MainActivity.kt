@@ -2,7 +2,6 @@ package com.yprodan.quiz
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -10,30 +9,41 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    var isNextResult = false
-    var state = 1
-    lateinit var textView: TextView
-    lateinit var test: QuestionGiver
-    lateinit var arrButton: Array<Button>
+    //a flag that will show that it is time to show the result
+    private var isNextResult = false
+
+    //question number for answer
+    private var state = 1
+
+    //link to text box
+    private lateinit var textView: TextView
+
+    //reference to the class, which contains the text, answers, correct answers
+    private lateinit var quest: QuestionGiver
+
+    //links to all the buttons used by the application(answer buttons, next button)
+    private lateinit var arrButton: Array<Button>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        test = QuestionGiver(application.assets.open("text1.txt").bufferedReader().use {
-            it.readText()
-        }, application.assets.open("answers1.txt").bufferedReader().use {
-            it.readText()
-        })
-
-        textView = findViewById(R.id.textView)
-        textView.text = test.getOrText(1)
-
+        quest =
+            QuestionGiver(application.assets.open(getString(R.string.text1)).bufferedReader().use {
+                it.readText()
+            }, application.assets.open(getString(R.string.answer1)).bufferedReader().use {
+                it.readText()
+            })
+        initTextView()
         initButton()
-
-        buttonSetter()
+        updateLabelsOnButtons()
     }
 
-    fun initButton(){
+    private fun initTextView() {
+        textView = findViewById(R.id.textView)
+        textView.text = quest.pointToTheQuestion(state)
+    }
+
+    private fun initButton() {
         arrButton = arrayOf(
             findViewById(R.id.answer_button_1), findViewById(R.id.answer_button_2),
             findViewById(R.id.answer_button_3), findViewById(R.id.answer_button_4),
@@ -41,50 +51,49 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    fun buttonSetter() {
+    private fun updateLabelsOnButtons() {
         for (i in 0..3) {
-            arrButton[i].text = (test.getSetAnswer(state - 1)[i])
-            Log.d("answw", test.getSetAnswer(4)[i].toString())
+            arrButton[i].text = (quest.getSetAnswer(state - 1)[i])
+//            Log.d("answw", test.getSetAnswer(4)[i].toString())
         }
     }
 
     fun onClick(view: View) {
         val button: Button = findViewById(view.id)
-        if (!test.isEnd()) {
-            when (view.id) {
-                R.id.next_button -> {
-                    state++
-                    buttonSetter()
-                    textView.text = test.getOrText(state)
-
-                }
-                else -> {
-                    textView.text = test.getChangeText(state, button.text.toString())
-                    state++
-                    textView.text = test.getOrText(state)
-                    buttonSetter()
-                }
+        if (!quest.isEnd()) {
+            if (view.id != R.id.next_button) {
+                textView.text = quest.getChangedText(state, button.text.toString())
             }
+            state++
+            textView.text = quest.pointToTheQuestion(state)
+            updateLabelsOnButtons()
         } else {
-            if(isNextResult) {
-                getResult(test.getTotalCount())
-            }
-            else if(view.id != R.id.next_button){
-                textView.text = test.getChangeText(state, button.text.toString())
+            //allows to answer the last question and not go directly to the results page
+            if (isNextResult) {
+                getResult()
+            } else if (view.id != R.id.next_button) {
+                textView.text = quest.getChangedText(state, button.text.toString())
             }
             isNextResult = true
             for (i in 0..4) {
-                arrButton[i].text = "finish"
+                arrButton[i].text = getString(R.string.text_finish)
             }
         }
-        test.upUnswerCount()
+        quest.increasePointer()
     }
 
-    fun getResult(totalCount: Int) {
+    /**
+     * launches an activity that will show the number of correct answers
+     */
+    private fun getResult() {
         val intent =
             Intent(this, ResultActivity::class.java)
-        intent.putExtra("rating", totalCount)
+        intent.putExtra("bestScore", quest.getTheBestPossibleTestScore())
+        //the flags will not let go back
+        intent.putExtra("rating", quest.getTotalCount()).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            .addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+            )
         startActivity(intent)
-
     }
 }

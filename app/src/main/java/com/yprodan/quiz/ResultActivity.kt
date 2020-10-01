@@ -9,7 +9,7 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
         val intent = intent.extras
-        val text: TextView = findViewById(R.id.textResultView)
-        text.text = intent?.getInt("rating").toString() + "/5"
+        val textView: TextView = findViewById(R.id.textResultView)
+        textView.text = intent?.getInt("rating").toString() + "/" + intent?.getInt("bestScore").toString()
     }
 }

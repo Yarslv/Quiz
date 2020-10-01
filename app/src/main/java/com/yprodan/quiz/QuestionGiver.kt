@@ -6,27 +6,34 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 
-class QuestionGiver {
+class QuestionGiver(text: String, allAnswer: String) {
 
-    var text: SpannableString
-    var position: Int
-    var count = 0
-    var rightAnswer: Array<String>
-    var setAnswers: Array<Array<String>>
+    //text for the test
+    private var text: SpannableString
+    //a pointer to the question to be answered
+    private var currentQuestion: Int
+    //the number of correct answers
+    private var count = 0
+    //set of correct answers
+    private var rightAnswer: Array<String>
+    //a set of answers that will be written on the buttons
+    private var setAnswers: Array<Array<String>>
 
-    constructor(text: String, allAnswer: String) {
+    init {
         this.text = SpannableString(text)
-        rightAnswer = allAnswer.split("\n").toTypedArray().get(0).split("|").toTypedArray()
-        position = 0
-        var setAnswerss: Array<Array<String>> = Array(rightAnswer.size, { Array(4, { "" }) })
-
+        rightAnswer = allAnswer.split("\n").toTypedArray()[0].split("|").toTypedArray()
+        currentQuestion = 0
+        setAnswers = Array(rightAnswer.size) { Array(4) { "" } }
         for (i in 1..rightAnswer.size) {
-            setAnswerss[i - 1] =
-                allAnswer.split("\n").toTypedArray().get(i).split("|").toTypedArray()
+            setAnswers[i - 1] =
+                allAnswer.split("\n").toTypedArray()[i].split("|").toTypedArray()
         }
-        setAnswers = setAnswerss
     }
 
+    /**
+     * Returns a set of items that will become labels on the buttons
+     * @param number - the number of the question for which the answer options are returned
+     */
     fun getSetAnswer(number: Int): Array<String> {
         if (number >= rightAnswer.size) {
             throw IndexOutOfBoundsException()
@@ -34,48 +41,57 @@ class QuestionGiver {
         return setAnswers[number]
     }
 
-    fun getOrText(index: Int): SpannableString {
+    /**
+     * Indicate in color the place in the text where you want to insert the word
+     * @param number - the place where the answer will be inserted
+     */
+    fun pointToTheQuestion(number: Int): SpannableString {
+        val index = text.indexOf("($number)", 0, true)
         text.setSpan(
-            ForegroundColorSpan(Color.RED), text.indexOf("($index)", 0, true), text.indexOf(
-                "($index)", 0, true
-            ) + "($index)_____".length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            ForegroundColorSpan(Color.BLACK), index, index + "($number)_____".length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         return text
     }
 
-    fun getChangeText(index: Int, answer: String): SpannableString {
-        val oldIndex = text.indexOf("($index)", 0, true)
-        val newText = SpannableString(text.toString().replace("($index)_____", answer))
-        Log.d("index", "($index)")
-        Log.d("index", oldIndex.toString())
-        newText.setSpan(
-            when (answer) {
-                rightAnswer[index - 1] -> {
-                    count++;
-                    ForegroundColorSpan(Color.GREEN)
-                }
-                else -> {
-                    ForegroundColorSpan(Color.RED)
-                }
-            }, oldIndex, oldIndex + answer.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        text = newText
-
+    /**
+     * Highlights the inserted answer in red if it is incorrect, and in green if it is correct
+     * @param number - the place where the answer will be inserted
+     * @param answer - actually the answer itself
+     */
+    fun getChangedText(number: Int, answer: String): SpannableString {
+        val index = text.indexOf("($number)", 0, true)
+        if(index != -1) {
+            text = SpannableString(text.toString().replace("($number)_____", answer))
+            Log.d("index", "($number)")
+            Log.d("index", index.toString())
+            text.setSpan(
+                when (answer) {
+                    rightAnswer[number - 1] -> {
+                        count++
+                        ForegroundColorSpan(Color.GREEN)
+                    }
+                    else -> {
+                        ForegroundColorSpan(Color.RED)
+                    }
+                }, index, index + answer.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
         return text
+    }
+
+    fun getTheBestPossibleTestScore(): Int{
+        return rightAnswer.size
     }
 
     fun getTotalCount(): Int{
         return count
     }
 
-    fun upUnswerCount() {
-        position++
+    fun increasePointer() {
+        currentQuestion++
     }
 
     fun isEnd(): Boolean {
-        Log.d("rightAns", rightAnswer.size.toString())
-        Log.d("rightAns", position.toString())
-        return rightAnswer.size <= position + 1
+        return rightAnswer.size <= currentQuestion + 1
     }
-
 }
