@@ -1,15 +1,15 @@
 package com.yprodan.quiz
 
+import kotlinx.android.synthetic.main.activity_result.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 
 class ResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
-        val intent = intent.extras
-        val textView: TextView = findViewById(R.id.textResultView)
-        textView.text = intent?.getInt("rating").toString() + "/" + intent?.getInt("bestScore").toString()
+        val extras = intent.extras
+        textResultView.text =
+            getString(R.string.user_score, extras?.getInt("rating"), extras?.getInt("bestScore"))
     }
 }

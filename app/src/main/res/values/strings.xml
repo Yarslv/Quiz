@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Quiz</string>
     <string name="next">next</string>
-    <string name="text1">text1.txt</string>
-    <string name="answer1">answers1.txt</string>
+    <string name="textForTest1">textForTest1.txt</string>
+    <string name="answers1">answers1.txt</string>
+    <string name="textForTest2">textForTest2.txt</string>
+    <string name="answers2">answers2.txt</string>
     <string name="text_finish">finish</string>
+    <string name="user_score">%1$d/%2$d</string>
 </resources>
