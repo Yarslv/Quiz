@@ -1,10 +1,14 @@
-package com.yprodan.quiz
+package com.yprodan.quiz.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.yprodan.quiz.R
+import com.yprodan.quiz.utils.AnswersController
+import com.yprodan.quiz.utils.Constants
+import com.yprodan.quiz.utils.TextController
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -41,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initTextView() {
-        controllerOfText.markTheQuestion(controllerOfAnswers.getCurrentQuestion())
+        controllerOfText.markTheQuestion(controllerOfAnswers.currentQuestion)
         textView.text = controllerOfText.getUpadateText()
     }
 
@@ -56,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateLabelsOnButtons() {
         for (i in 0..3) {
             arrButton[i].text =
-                (controllerOfAnswers.getSetAnswer(controllerOfAnswers.getCurrentQuestion())[i])
+                (controllerOfAnswers.getSetAnswer(controllerOfAnswers.currentQuestion)[i])
         }
     }
 
@@ -66,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // todo replace this method with individual click listeners
     fun onClick(view: View) {
         val button: Button = findViewById(view.id)
 
@@ -76,21 +81,21 @@ class MainActivity : AppCompatActivity() {
             isNextResult = true
             if (button != next_button) // edge case problem: if not check paste in the text "next"
                 controllerOfText.markTheAnswer(
-                    controllerOfAnswers.getCurrentQuestion(), button.text.toString(),
+                    controllerOfAnswers.currentQuestion, button.text.toString(),
                     controllerOfAnswers.checkAnswer(button.text.toString())
                 )
-            updateLabelsOnButtons("FINISH TEST")
+            updateLabelsOnButtons(getString(R.string.finishTestButtonText)) // todo set answer buttons visibility gone
         } else {
             when (button) {
                 answer_button_1, answer_button_2, answer_button_3, answer_button_4 -> {
                     controllerOfText.markTheAnswer(
-                        controllerOfAnswers.getCurrentQuestion(), button.text.toString(),
+                        controllerOfAnswers.currentQuestion, button.text.toString(),
                         controllerOfAnswers.checkAnswer(button.text.toString())
                     )
                 }
             }
             controllerOfAnswers.increasePointer()
-            controllerOfText.markTheQuestion(controllerOfAnswers.getCurrentQuestion())
+            controllerOfText.markTheQuestion(controllerOfAnswers.currentQuestion)
             updateLabelsOnButtons()
         }
         textView.text = controllerOfText.getUpadateText()
@@ -103,8 +108,12 @@ class MainActivity : AppCompatActivity() {
     private fun getResult() {
         val intent =
             Intent(this, ResultActivity::class.java)
-        intent.putExtra("bestScore", controllerOfAnswers.getTheBestPossibleTestScore())
+        intent.putExtra(
+            Constants.TOTAL_QUESTIONS_NUMBER_TAG,
+            controllerOfAnswers.getTheBestPossibleTestScore()
+        )
         //the flags will not let go back
+        // todo use constants
         intent.putExtra("rating", controllerOfAnswers.getTotalCount())
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             .addFlags(

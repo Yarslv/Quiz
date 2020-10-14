@@ -1,4 +1,4 @@
-package com.yprodan.quiz
+package com.yprodan.quiz.utils
 
 import android.graphics.Color
 import android.text.Spannable

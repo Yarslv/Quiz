@@ -1,8 +1,9 @@
-package com.yprodan.quiz
+package com.yprodan.quiz.ui
 
 import kotlinx.android.synthetic.main.activity_result.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.yprodan.quiz.R
 
 class ResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

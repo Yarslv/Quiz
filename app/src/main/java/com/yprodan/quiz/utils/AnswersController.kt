@@ -1,4 +1,4 @@
-package com.yprodan.quiz
+package com.yprodan.quiz.utils
 
 /**
  * Class for working with answers:
@@ -13,7 +13,7 @@ package com.yprodan.quiz
 class AnswersController(allAnswer: String) {
 
     //a pointer to the question to be answered
-    private var currentQuestion: Int = 1
+    var currentQuestion: Int = 1
 
     //the number of correct answers
     private var count = 0
@@ -66,9 +66,5 @@ class AnswersController(allAnswer: String) {
 
     fun isEnd(): Boolean {
         return rightAnswer.size <= currentQuestion
-    }
-
-    fun getCurrentQuestion(): Int {
-        return currentQuestion
     }
 }
