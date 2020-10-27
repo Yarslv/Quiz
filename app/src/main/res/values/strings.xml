@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Quiz</string>
     <string name="next">next</string>
-    <string name="textForTest1">textForTest1.txt</string>
-    <string name="answers1">answers1.txt</string>
-    <string name="textForTest2">textForTest2.txt</string>
-    <string name="answers2">answers2.txt</string>
-    <string name="text_finish">finish</string>
+    <string name="textForTest1">test1.json</string>
     <string name="user_score">%1$d/%2$d</string>
-    <string name="finishTestButtonText">finish test</string>
+    <string name="finishTestButtonText">FINISH TEST</string>
+    <string name="text">text</string>
+    <string name="answersForTest">answers</string>
+    <string name="rightAnswerOfTest">rightAnswer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
