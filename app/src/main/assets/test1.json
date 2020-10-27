@@ -1,0 +1,42 @@
+{
+  "text": "Mary Kingsley\n\nMary Kingsley didn’t travel during the\nfirst 30 years of her life. (1)_____ ,\nwhen her father died, leaving her an\ninheritance, she (2)_____ to set off\nfor West Africa, that was still largely\nunmapped in (3)_____ . Kingsley\ntravelled alone, (4)_____ was almost\nunheard of for a female at the time.\nDuring her travels, she lived with\nlocal people and learned their skills\nand customs.\n\nKingsley became quite well known after\nreturning to England. She spent a lot of\ntime criticizing missionaries for trying\nto change the native (5)_____ traditions.",
+  "answers": {
+    "1": [
+      "However",
+      "Although",
+      "Moreover",
+      "Besides"
+    ],
+    "2": [
+      "has decided",
+      "had decided",
+      "decided",
+      "decides"
+    ],
+    "3": [
+      "1890s",
+      "1890th",
+      "the 1890s",
+      "the 1890th"
+    ],
+    "4": [
+      "whether",
+      "which",
+      "when",
+      "how"
+    ],
+    "5": [
+      "Africans’s",
+      "African’s",
+      "Africans",
+      "Africans’"
+    ]
+  },
+  "rightAnswer": [
+    "0",
+    "2",
+    "2",
+    "1",
+    "3"
+  ]
+}
