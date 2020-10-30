@@ -1,4 +1,4 @@
-package com.yprodan.quiz.utils
+package com.yprodan.quiz.utils.model
 
 /**
  * Class to save the user's position and his score

@@ -1,4 +1,4 @@
-package com.yprodan.quiz.utils
+package com.yprodan.quiz.utils.model
 
 import org.json.JSONArray
 

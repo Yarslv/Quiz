@@ -7,6 +7,4 @@
     <string name="text">text</string>
     <string name="answersForTest">answers</string>
     <string name="rightAnswerOfTest">rightAnswer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
