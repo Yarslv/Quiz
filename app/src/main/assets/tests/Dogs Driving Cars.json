@@ -1,0 +1,42 @@
+{
+  "text": "Dogs Driving Cars\n\nFor the past two months, animal trainer Mark Vette (1)_____ three dogs to drive. The lessons are part of a campaign by the Society for the Prevention of Cruelty to Animals meant (2)_____ up stereotypes about rescue dogs.\n\nSometimes people think, because they’re getting an animal that (3)_____ , that somehow it’s a second-class animal. Driving a car (4)_____ demonstrates to potential dog adopters that you (5)_____ teach an old dog new tricks. The way all three rescue dogs have taken to training really proves that intelligent creatures adapt to the situation they’re in.",
+  "answers": {
+    "1": [
+      "has been teaching",
+      "was teaching",
+      "taught",
+      "teaches"
+    ],
+    "2": [
+      "clear",
+      "to be cleared",
+      "be clearing",
+      "to clear"
+    ],
+    "3": [
+      "has been abandoned",
+      "has abandoned",
+      "were abandoned",
+      "abandoned"
+    ],
+    "4": [
+      "activation",
+      "activate",
+      "actively",
+      "active"
+    ],
+    "5": [
+      "ought",
+      "can",
+      "must",
+      "will"
+    ]
+  },
+  "rightAnswer": [
+    "0",
+    "3",
+    "0",
+    "2",
+    "1"
+  ]
+}

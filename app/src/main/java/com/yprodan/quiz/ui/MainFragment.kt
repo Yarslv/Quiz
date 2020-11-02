@@ -1,7 +1,5 @@
 package com.yprodan.quiz.ui
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.yprodan.quiz.R
+import com.yprodan.quiz.utils.Constants
 import com.yprodan.quiz.utils.InformationReceiver
 import com.yprodan.quiz.utils.model.AnswersToQuestions
 import com.yprodan.quiz.utils.TextController
@@ -37,13 +36,12 @@ class MainFragment : Fragment() {
     //user progress information (position, score)
     private lateinit var userInfo: UserInfo
 
-    //link to the main activity
-    private var activity: Activity? = null
+    private lateinit var filename: String
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is Activity) {
-            activity = context
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments.let {
+            filename = it?.getString(Constants.FILE_NAME_TAG).toString()
         }
     }
 
@@ -66,9 +64,9 @@ class MainFragment : Fragment() {
      */
     private fun getDataFromJSON() {
         val json = JSONObject(
-            activity?.application?.assets?.open(getString(R.string.textForTest1))
+            requireActivity().application?.assets?.open("tests/" + filename)
                 ?.bufferedReader().use {
-                    it?.readText()
+                    it!!.readText()
                 }
         )
         val allAnswers = json.getJSONObject(getString(R.string.answersForTest))
@@ -120,7 +118,6 @@ class MainFragment : Fragment() {
                 userInfo.position++
 
                 if (userInfo.getPositionInArray() < arrayOfAnswers.size) {
-                    Log.d("position", userInfo.getPositionInArray().toString())
                     controllerOfText.markTheQuestion(userInfo.getPositionInText())
                     updateLabelsOnButtons()
                 } else if (userInfo.getPositionInArray() == arrayOfAnswers.size) {
@@ -141,7 +138,7 @@ class MainFragment : Fragment() {
                     controllerOfText.markTheQuestion(userInfo.getPositionInText())
                     content.textView.text = controllerOfText.getUpadateText()
                 }
-                else -> (activity as InformationReceiver).transmitToActivity(
+                else -> (activity as InformationReceiver).transmitResultToActivity(
                     userInfo.score,
                     arrayOfAnswers.size
                 )

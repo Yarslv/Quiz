@@ -1,6 +1,8 @@
 package com.yprodan.quiz.ui
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -16,10 +18,10 @@ class MainActivity : AppCompatActivity(), InformationReceiver {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         controller = Navigation.findNavController(this, R.id.nav_host_fragment_container)
-        controller.navigate(R.id.mainFragment)
+        controller.navigate(R.id.itemFragment)
     }
 
-    override fun transmitToActivity(score: Int, numberOfQuestions: Int) {
+    override fun transmitResultToActivity(score: Int, numberOfQuestions: Int) {
         val rating = Bundle()
         rating.let {
             it.putInt(Constants.CURRENT_QUESTIONS_NUMBER_TAG, score)
@@ -29,5 +31,15 @@ class MainActivity : AppCompatActivity(), InformationReceiver {
 //        controller.popBackStack()
         controller.navigate(R.id.resultFragment, rating)
     }
+
+    override fun transmitFileNameToActivity(fname: String) {
+        Log.d(Constants.FILE_NAME_TAG, fname)
+        val arg = Bundle()
+        arg.let {
+            it.putString(Constants.FILE_NAME_TAG, fname)
+        }
+        controller.navigate(R.id.mainFragment, arg)
+    }
+
 }
 

@@ -7,4 +7,5 @@
     <string name="text">text</string>
     <string name="answersForTest">answers</string>
     <string name="rightAnswerOfTest">rightAnswer</string>
+    <string name="abbreviation">.json</string>
 </resources>

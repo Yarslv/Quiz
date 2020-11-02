@@ -1,0 +1,42 @@
+{
+  "text": "Egg-and-Spoon Race\n\nEgg-and-spoon race originated at the end of the 19th century in the United Kingdom. The objective of the race is very (1)_____ , to carry an egg on the spoon and cross the finish line as fast as (2)_____ . Each competitor is (3)_____ a spoon and an egg. At the starting line, all competitors line up with the eggs positioned on the spoon. When the start signal is set off, competitors run at full speed, holding the spoon with just one hand. Holding the spoon with two hands, or touching the egg with hands is not allowed. If a competitor drops it, they have to (4)_____ the egg, put it back on to the spoon and balance it before they can resume running. Though mostly eggs are used for races, they have also been (5)_____ in some instances with potatoes, tomatoes, lemons or synthetic eggs.",
+  "answers": {
+    "1": [
+      "simple",
+      "light",
+      "basic",
+      "natural"
+    ],
+    "2": [
+      "comfortable",
+      "convenient",
+      "possible",
+      "necessary"
+    ],
+    "3": [
+      "fond of",
+      "known for",
+      "adjusted to",
+      "provided with"
+    ],
+    "4": [
+      "pick up",
+      "pick at",
+      "pick out",
+      "pick on"
+    ],
+    "5": [
+      "changed",
+      "replaced",
+      "removed",
+      "balanced"
+    ]
+  },
+  "rightAnswer": [
+    "0",
+    "3",
+    "3",
+    "0",
+    "1"
+  ]
+}
