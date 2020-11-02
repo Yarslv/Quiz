@@ -13,7 +13,7 @@ import com.yprodan.quiz.utils.InformationReceiver
 
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem].
+ * [RecyclerView.Adapter] that can display a [String].
  */
 class MyItemRecyclerViewAdapter(
     private val values: List<String>,

@@ -1,7 +1,6 @@
 package com.yprodan.quiz.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -64,7 +63,7 @@ class MainFragment : Fragment() {
      */
     private fun getDataFromJSON() {
         val json = JSONObject(
-            requireActivity().application?.assets?.open("tests/" + filename)
+            requireActivity().application?.assets?.open("texts/" + filename)
                 ?.bufferedReader().use {
                     it!!.readText()
                 }

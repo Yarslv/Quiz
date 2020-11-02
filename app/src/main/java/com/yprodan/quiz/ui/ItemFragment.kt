@@ -1,7 +1,6 @@
 package com.yprodan.quiz.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +24,7 @@ class ItemFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_item_list, container, false)
 
         val list = mutableListOf<String>()
-        for (i in requireActivity().application?.assets?.list("tests")!!) {
+        for (i in requireActivity().application?.assets?.list("texts")!!) {
 //            Log.d("file", i)
             list.add(i.substring(0, i.length - 5))
         }
