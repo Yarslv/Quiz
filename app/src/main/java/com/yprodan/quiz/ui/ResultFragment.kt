@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.yprodan.quiz.R
 import com.yprodan.quiz.utils.Constants
-import kotlinx.android.synthetic.main.fragment_result.view.*
+import kotlinx.android.synthetic.main.fragment_result.*
 
 /**
  * Shows the result
@@ -25,15 +25,18 @@ class ResultFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        textResultView.text =
+            getString(
+                R.string.userScore, score, questionsNumber
+            )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val content = inflater.inflate(R.layout.fragment_result, container, false)
-        content.textResultView.text =
-            getString(
-                R.string.user_score, score, questionsNumber
-            )
-        return content
+        return inflater.inflate(R.layout.fragment_result, container, false)
     }
 }

@@ -11,5 +11,5 @@
     android:clickable="true"
     android:focusable="true"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".ui.ItemFragment"
-    tools:listitem="@layout/fragment_item" />
+    tools:context=".ui.MainFragment"
+    tools:listitem="@layout/fragment_main" />

@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Quiz</string>
+    <string name="appName">Quiz</string>
     <string name="next">next</string>
     <string name="textForTest1">test1.json</string>
-    <string name="user_score">%1$d/%2$d</string>
+    <string name="userScore">%1$d/%2$d</string>
+    <string name="fullFileName">%1$s/%2$s%3$s</string>
     <string name="finishTestButtonText">FINISH TEST</string>
     <string name="text">text</string>
     <string name="answersForTest">answers</string>

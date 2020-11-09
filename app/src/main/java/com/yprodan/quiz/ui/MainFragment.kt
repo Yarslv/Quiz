@@ -2,165 +2,54 @@ package com.yprodan.quiz.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.navigation.Navigation
 import com.yprodan.quiz.R
+import com.yprodan.quiz.ui.adapter.ItemRecyclerViewAdapter
 import com.yprodan.quiz.utils.Constants
-import com.yprodan.quiz.utils.InformationReceiver
-import com.yprodan.quiz.utils.model.AnswersToQuestions
-import com.yprodan.quiz.utils.TextController
-import com.yprodan.quiz.utils.model.UserInfo
-import kotlinx.android.synthetic.main.fragment_main.view.*
-import org.json.JSONObject
+import com.yprodan.quiz.utils.OnItemClickListener
 
 /**
- * Shows text and buttons, shows the correct answer, counts the correct answers
+ * A fragment representing a list of Items.
  */
 class MainFragment : Fragment() {
-
-    //gives access to visual elements
-    private lateinit var content: View
-
-    //tints the text, points to questions
-    private lateinit var controllerOfText: TextController
-
-    //links to all the buttons used by the application(answer buttons, next button)
-    private lateinit var arrButton: Array<Button>
-
-    //an array of answer blocks
-    private lateinit var arrayOfAnswers: Array<AnswersToQuestions?>
-
-    //user progress information (position, score)
-    private lateinit var userInfo: UserInfo
-
-    private lateinit var filename: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments.let {
-            filename = it?.getString(Constants.FILE_NAME_TAG).toString()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        content = inflater.inflate(R.layout.fragment_main, container, false)
-        getDataFromJSON()
-        userInfo = UserInfo()
-        initTextView()
-        initButton()
-        updateLabelsOnButtons()
-        return content
+        return inflater.inflate(R.layout.fragment_main_item_list, container, false)
     }
 
-    /**
-     * Reads the specified file, breaks it into text, a block of answers to questions,
-     * a block of correct answers
-     */
-    private fun getDataFromJSON() {
-        val json = JSONObject(
-            requireActivity().application?.assets?.open("texts/" + filename)
-                ?.bufferedReader().use {
-                    it!!.readText()
-                }
-        )
-        val allAnswers = json.getJSONObject(getString(R.string.answersForTest))
-        val rightAnswers = json.getJSONArray(getString(R.string.rightAnswerOfTest))
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        controllerOfText =
-            TextController(
-                json.getString(getString(R.string.text)).toString()
-            )
-
-        arrayOfAnswers = arrayOfNulls(allAnswers.length())
-        for (i in 1..arrayOfAnswers.size) {
-            arrayOfAnswers[i - 1] = AnswersToQuestions(
-                allAnswers.getJSONArray((i).toString()),
-                rightAnswers.getInt(i - 1)
-            )
-        }
-    }
-
-    private fun initTextView() {
-        controllerOfText.markTheQuestion(userInfo.getPositionInText())
-        content.textView.text = controllerOfText.getUpadateText()
-    }
-
-    private fun initButton() {
-        arrButton = arrayOf(
-            content.answer_button_1, content.answer_button_2,
-            content.answer_button_3, content.answer_button_4
-        )
-        setKeyListener()
-    }
-
-    private fun setKeyListener() {
-        for (i in 0..3) {
-            arrButton[i].setOnClickListener {
-                val button = it as Button
-                controllerOfText.markTheAnswer(
-                    userInfo.getPositionInText(),
-                    button.text.toString(),
-                    arrayOfAnswers[userInfo.getPositionInArray()]
-                        ?.checkForCorrectness(button.text.toString())!!
-                )
-                if (arrayOfAnswers[userInfo.getPositionInArray()]
-                        ?.checkForCorrectness(button.text.toString())!!
-                ) {
-                    userInfo.score++
-                }
-
-                userInfo.position++
-
-                if (userInfo.getPositionInArray() < arrayOfAnswers.size) {
-                    controllerOfText.markTheQuestion(userInfo.getPositionInText())
-                    updateLabelsOnButtons()
-                } else if (userInfo.getPositionInArray() == arrayOfAnswers.size) {
-                    prepareButtonsForFinish()
-                }
-                content.textView.text = controllerOfText.getUpadateText()
-            }
+        val list = mutableListOf<String>()
+        for (i in requireActivity().application?.assets?.list(Constants.FILE_FOLDER_NAME_TAG)!!) {
+            //trims the file extension to display it in the list
+            list.add(i.substring(0, i.length - Constants.ABBREVIATION_TAG.length))
         }
 
-        content.next_button.setOnClickListener {
-            userInfo.position++
-            when {
-                userInfo.getPositionInArray() == arrayOfAnswers.size -> {
-                    prepareButtonsForFinish()
+        // Set the adapter
+        with(view as RecyclerView) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = ItemRecyclerViewAdapter(list, object : OnItemClickListener {
+                override fun onClick(fileName: String) {
+                    val bundle = Bundle()
+                    bundle.putString(Constants.FILE_NAME_TAG, fileName)
+                    Navigation.findNavController(
+                        requireActivity(),
+                        R.id.nav_host_fragment_container
+                    )
+                        .navigate(
+                            R.id.action_mainFragment_to_quizFragment, bundle
+                        )
                 }
-                userInfo.getPositionInArray() < arrayOfAnswers.size -> {
-                    updateLabelsOnButtons()
-                    controllerOfText.markTheQuestion(userInfo.getPositionInText())
-                    content.textView.text = controllerOfText.getUpadateText()
-                }
-                else -> (activity as InformationReceiver).transmitResultToActivity(
-                    userInfo.score,
-                    arrayOfAnswers.size
-                )
-
-            }
-
+            })
         }
-    }
-
-    private fun updateLabelsOnButtons() {
-        for (i in 0..3) {
-            arrButton[i].text =
-                (arrayOfAnswers[userInfo.getPositionInArray()]?.answerSet?.get(i).toString())
-        }
-    }
-
-    /**
-     * Hides the answer buttons, and sets the special text for the next button
-     */
-    private fun prepareButtonsForFinish() {
-        for (i in 0..3) {
-            arrButton[i].visibility = View.INVISIBLE
-        }
-        content.next_button.text = getString(R.string.finishTestButtonText)
     }
 }
