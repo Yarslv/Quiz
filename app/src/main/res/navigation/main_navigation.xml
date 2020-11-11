@@ -9,7 +9,7 @@
         android:id="@+id/quizFragment"
         android:name="com.yprodan.quiz.ui.QuizFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_quiz">
+        tools:layout="@layout/quiz_fragment">
         <action
             android:id="@+id/action_quizFragment_to_resultFragment"
             app:destination="@id/resultFragment">
@@ -28,12 +28,12 @@
         android:id="@+id/resultFragment"
         android:name="com.yprodan.quiz.ui.ResultFragment"
         android:label="fragment_result"
-        tools:layout="@layout/fragment_result" />
+        tools:layout="@layout/result_fragment" />
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.yprodan.quiz.ui.MainFragment"
         android:label="fragment_item_list"
-        tools:layout="@layout/fragment_main_item_list">
+        tools:layout="@layout/item_list_fragment">
         <action
             android:id="@+id/action_mainFragment_to_quizFragment"
             app:destination="@id/quizFragment">

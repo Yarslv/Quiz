@@ -1,18 +1,18 @@
 package com.yprodan.quiz.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.navigation.Navigation
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.yprodan.quiz.R
 import com.yprodan.quiz.utils.Constants
-import com.yprodan.quiz.utils.model.AnswersToQuestions
 import com.yprodan.quiz.utils.TextController
+import com.yprodan.quiz.utils.model.AnswersToQuestions
 import com.yprodan.quiz.utils.model.UserInfo
-import kotlinx.android.synthetic.main.fragment_quiz.*
+import kotlinx.android.synthetic.main.quiz_fragment.*
 import org.json.JSONObject
 
 /**
@@ -45,7 +45,7 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_quiz, container, false)
+        return inflater.inflate(R.layout.quiz_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -155,8 +155,7 @@ class QuizFragment : Fragment() {
             it.putInt(Constants.CURRENT_QUESTIONS_NUMBER_TAG, userInfo.score)
             it.putInt(Constants.TOTAL_QUESTIONS_NUMBER_TAG, arrayOfAnswers.size)
         }
-        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_container)
-            .navigate(R.id.action_quizFragment_to_resultFragment, bundle)
+        findNavController().navigate(R.id.action_quizFragment_to_resultFragment, bundle)
     }
 
     private fun updateLabelsOnButtons() {

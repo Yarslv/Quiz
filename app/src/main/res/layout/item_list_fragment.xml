@@ -8,8 +8,6 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:clickable="true"
-    android:focusable="true"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.MainFragment"
-    tools:listitem="@layout/fragment_main" />
+    tools:listitem="@layout/list_item" />

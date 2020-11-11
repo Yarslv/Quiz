@@ -13,14 +13,14 @@ import com.yprodan.quiz.utils.OnItemClickListener
  * [RecyclerView.Adapter] that can display a [String].
  */
 class ItemRecyclerViewAdapter(
-    private val values: List<String>,
+    private val fileNamesList: List<String>,
     private val onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<ItemRecyclerViewAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_main, parent, false)
+            .inflate(R.layout.list_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -28,22 +28,23 @@ class ItemRecyclerViewAdapter(
         holder.bind(position)
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int = fileNamesList.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val idView: TextView = itemView.findViewById(R.id.item_number)
-        val contentView: TextView = itemView.findViewById(R.id.content)
+        private val idTextView: TextView = itemView.findViewById(R.id.item_number)
+        private val contentTextView: TextView = itemView.findViewById(R.id.content)
 
         fun bind(position: Int) {
-            idView.text = (position + 1).toString()
-            contentView.text = values[position]
+            // position + 1 because the countdown starts with 0, but need 1
+            idTextView.text = (position + 1).toString()
+            contentTextView.text = fileNamesList[position]
             itemView.setOnClickListener {
-                onItemClickListener.onClick(contentView.text.toString())
+                onItemClickListener.onClick(contentTextView.text.toString())
             }
         }
 
         override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
+            return super.toString() + " '" + contentTextView.text + "'"
         }
     }
 }
